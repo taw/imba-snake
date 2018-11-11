@@ -1,0 +1,41 @@
+@import 'normalize-scss';
+@include normalize();
+
+.App {
+  header {
+    font-size: 64px;
+    text-align: center;
+  }
+
+  .snake-game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 620px;
+    margin: auto;
+  }
+
+  svg {
+    background-color: #ccf;
+    height: 620px;
+    width: 620px;
+    margin: auto;
+  }
+
+  .snake-head {
+    fill: black;
+  }
+
+  .snake-body {
+    fill: green;
+  }
+
+  .snake-direction {
+    fill: red;
+  }
+
+  .fruit {
+    fill: red;
+  }
+}
