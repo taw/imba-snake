@@ -1,6 +1,6 @@
 # imba-boilerplate
 
-Webpack boilerplate for imba and sass, with CSS normalize preloaded.
+Nokia-style snake game.
 
 ## Install dependencies
 

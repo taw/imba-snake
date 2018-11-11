@@ -94,33 +94,37 @@ tag SnakeGame
     else if isFruitAt(nextX, nextY)
       removeFruitAt(nextX, nextY)
       @snake.unshift({x: nextX, y: nextY})
+      @score += 1
       addRandomFruit
     else
       @snake.unshift({x: nextX, y: nextY})
       @snake.pop()
 
   def goUp
+    return startGame if !@active
     return if @dx == 0
     @dx = 0
     @dy = -1
 
   def goDown
+    return startGame if !@active
     return if @dx == 0
     @dx = 0
     @dy = 1
 
   def goRight
+    return startGame if !@active
     return if @dy == 0
     @dx = 1
     @dy = 0
 
   def goLeft
+    return startGame if !@active
     return if @dy == 0
     @dx = -1
     @dy = 0
 
   def mount
-    console.log("mounted")
     setInterval(&,100) do
       if @active
         moveSnake
