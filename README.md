@@ -1,4 +1,4 @@
-# imba-boilerplate
+# imba-snake
 
 Nokia-style snake game.
 
