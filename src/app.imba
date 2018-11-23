@@ -125,7 +125,8 @@ tag SnakeGame
     @dy = 0
 
   def mount
-    setInterval(&,100) do
+    document.getElementById("game").focus()
+    setInterval(&,50) do
       if @active
         moveSnake
       Imba.commit
@@ -135,12 +136,12 @@ tag SnakeGame
       <h2>
         "Score: "
         @score
-      <svg:svg autofocus tabindex="0" :keydown.up.goUp :keydown.down.goDown :keydown.left.goLeft :keydown.right.goRight>
+      <svg:svg id="game" tabindex="0" :keydown.up.goUp :keydown.down.goDown :keydown.left.goLeft :keydown.right.goRight>
         <Snake[@snake] dx=@dx dy=@dy>
         for item in @fruit
           <Fruit[item]>
-      <div>
-        "Click on game to start. Keys to change snake direction."
+      <div.help>
+        "Keys to change snake direction."
 
 tag App
   def render
