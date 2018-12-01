@@ -1,17 +1,21 @@
 tag Fruit < svg:g
   def render
     <self>
-      <svg:circle.fruit cx=(10+20*data:x) cy=(10+20*data:y) r="8">
+      <svg:circle.fruit cx=(15+30*data:x) cy=(15+30*data:y) r="12">
 
 tag SnakeBody < svg:g
+  prop index
+  prop length
+
   def render
+    let color = "hsl(120, 100%, {(0.2 + 0.6*index/length)*100}%)"
     <self>
-      <svg:rect.snake-body x=(20*data:x) y=(20*data:y) width="18" height="18">
+      <svg:rect.snake-body x=(30*data:x) y=(30*data:y) width="28" height="28" css:fill=color>
 
 tag SnakeHead < svg:g
   def render
     <self>
-      <svg:rect.snake-head x=(20*data:x) y=(20*data:y) width="18" height="18">
+      <svg:rect.snake-head x=(30*data:x) y=(30*data:y) width="28" height="28">
 
 tag SnakeDirection < svg:g
   prop x
@@ -20,17 +24,17 @@ tag SnakeDirection < svg:g
   prop dy
 
   def render
-    let x0 = 20*x + 9
-    let y0 = 20*y + 9
+    let x0 = 30*x + 14
+    let y0 = 30*y + 14
     <self>
       if dx == 1
-        <svg:polygon.snake-direction points="{x0 - 5},{y0 - 5} {x0 + 5},{y0} {x0 - 5},{y0 + 5}">
+        <svg:polygon.snake-direction points="{x0 - 8},{y0 - 8} {x0 + 8},{y0} {x0 - 8},{y0 + 8}">
       else if dx == -1
-        <svg:polygon.snake-direction points="{x0 + 5},{y0 - 5} {x0 - 5},{y0} {x0 + 5},{y0 + 5}">
+        <svg:polygon.snake-direction points="{x0 + 8},{y0 - 8} {x0 - 8},{y0} {x0 + 8},{y0 + 8}">
       else if dy == 1
-        <svg:polygon.snake-direction points="{x0 - 5},{y0 - 5} {x0 + 5},{y0 - 5} {x0},{y0 + 5}">
+        <svg:polygon.snake-direction points="{x0 - 8},{y0 - 8} {x0 + 8},{y0 - 8} {x0},{y0 + 8}">
       else
-        <svg:polygon.snake-direction points="{x0 - 5},{y0 + 5} {x0 + 5},{y0 + 5} {x0},{y0 - 5}">
+        <svg:polygon.snake-direction points="{x0 - 8},{y0 + 8} {x0 + 8},{y0 + 8} {x0},{y0 - 8}">
 
 tag Snake < svg:g
   prop dx
@@ -43,8 +47,7 @@ tag Snake < svg:g
           <SnakeHead[item]>
           <SnakeDirection x=item:x y=item:y dx=dx dy=dy>
         else
-          <SnakeBody[item]>
-
+          <SnakeBody[item] index=index length=data:length>
 
 tag SnakeGame
   def build
@@ -54,9 +57,9 @@ tag SnakeGame
     @active = true
     @dx = 1
     @dy = 0
-    @snake = [{x:15, y:15}, {x:14, y:15}, {x:13, y:15}]
-    @fruit = [{x:5, y:5}]
-    for i in Array.from({length: 10})
+    @snake = [{x:10, y:10}, {x:9, y:10}, {x:8, y:10}]
+    @fruit = []
+    for i in Array.from({length: 30})
       addRandomFruit
     @score = 0
 
@@ -70,8 +73,8 @@ tag SnakeGame
 
   def addRandomFruit
     while true
-      let x = Math.floor(Math.random() * 31)
-      let y = Math.floor(Math.random() * 31)
+      let x = Math.floor(Math.random() * 21)
+      let y = Math.floor(Math.random() * 21)
       if isSnakeAt(x, y) || isFruitAt(x, y)
         continue
       @fruit.push({x: x, y: y})
@@ -86,8 +89,8 @@ tag SnakeGame
 
   def moveSnake
     let snakeHead = @snake[0]
-    let nextX = (snakeHead:x + @dx + 31) % 31
-    let nextY = (snakeHead:y + @dy + 31) % 31
+    let nextX = (snakeHead:x + @dx + 21) % 21
+    let nextY = (snakeHead:y + @dy + 21) % 21
 
     if isSnakeAt(nextX, nextY)
       gameOver
@@ -98,35 +101,35 @@ tag SnakeGame
       addRandomFruit
     else
       @snake.unshift({x: nextX, y: nextY})
-      @snake.pop()
+      @snake.pop
 
   def goUp
-    return startGame if !@active
+    return startGame unless @active
     return if @dx == 0
     @dx = 0
     @dy = -1
 
   def goDown
-    return startGame if !@active
+    return startGame unless @active
     return if @dx == 0
     @dx = 0
     @dy = 1
 
   def goRight
-    return startGame if !@active
+    return startGame unless @active
     return if @dy == 0
     @dx = 1
     @dy = 0
 
   def goLeft
-    return startGame if !@active
+    return startGame unless @active
     return if @dy == 0
     @dx = -1
     @dy = 0
 
   def mount
     document.getElementById("game").focus()
-    setInterval(&,50) do
+    setInterval(&,100) do
       if @active
         moveSnake
       Imba.commit
@@ -134,8 +137,7 @@ tag SnakeGame
   def render
     <self.snake-game>
       <h2>
-        "Score: "
-        @score
+        "Score: { @score }"
       <svg:svg id="game" tabindex="0" :keydown.up.goUp :keydown.down.goDown :keydown.left.goLeft :keydown.right.goRight>
         <Snake[@snake] dx=@dx dy=@dy>
         for item in @fruit
