@@ -1,7 +1,7 @@
 tag Fruit < svg:g
   def render
     <self>
-      <svg:circle.fruit cx=(15+30*data:x) cy=(15+30*data:y) r="12">
+      <svg:circle cx=(15+30*data:x) cy=(15+30*data:y) r="12">
 
 tag SnakeBody < svg:g
   prop index
@@ -10,12 +10,12 @@ tag SnakeBody < svg:g
   def render
     let color = "hsl(120, 100%, {(0.2 + 0.6*index/length)*100}%)"
     <self>
-      <svg:rect.snake-body x=(30*data:x) y=(30*data:y) width="28" height="28" css:fill=color>
+      <svg:rect x=(30*data:x) y=(30*data:y) width="28" height="28" css:fill=color>
 
 tag SnakeHead < svg:g
   def render
     <self>
-      <svg:rect.snake-head x=(30*data:x) y=(30*data:y) width="28" height="28">
+      <svg:rect x=(30*data:x) y=(30*data:y) width="28" height="28">
 
 tag SnakeDirection < svg:g
   prop x
@@ -26,15 +26,13 @@ tag SnakeDirection < svg:g
   def render
     let x0 = 30*x + 14
     let y0 = 30*y + 14
+    let rot = 0
+    rot = 180 if dx == -1
+    rot = 90 if dy == 1
+    rot = 270 if dy == -1
+
     <self>
-      if dx == 1
-        <svg:polygon.snake-direction points="{x0 - 8},{y0 - 8} {x0 + 8},{y0} {x0 - 8},{y0 + 8}">
-      else if dx == -1
-        <svg:polygon.snake-direction points="{x0 + 8},{y0 - 8} {x0 - 8},{y0} {x0 + 8},{y0 + 8}">
-      else if dy == 1
-        <svg:polygon.snake-direction points="{x0 - 8},{y0 - 8} {x0 + 8},{y0 - 8} {x0},{y0 + 8}">
-      else
-        <svg:polygon.snake-direction points="{x0 - 8},{y0 + 8} {x0 + 8},{y0 + 8} {x0},{y0 - 8}">
+      <svg:polygon points="-8,-8 8,0 -8,8" transform="translate({x0},{y0}) rotate({rot})">
 
 tag Snake < svg:g
   prop dx

@@ -27,18 +27,17 @@
     margin: auto;
   }
 
-  .snake-head {
+  ._SnakeDirection {
+    polygon {
+      fill: red;
+    }
+  }
+
+  ._SnakeHead {
     fill: black;
   }
 
-  .snake-body {
-  }
-
-  .snake-direction {
-    fill: red;
-  }
-
-  .fruit {
+  ._Fruit {
     fill: red;
   }
 }
