@@ -101,46 +101,43 @@ tag SnakeGame
       @snake.unshift({x: nextX, y: nextY})
       @snake.pop
 
-  def goUp
-    return startGame unless @active
-    return if @dx == 0
-    @dx = 0
-    @dy = -1
-
-  def goDown
-    return startGame unless @active
-    return if @dx == 0
-    @dx = 0
-    @dy = 1
-
-  def goRight
-    return startGame unless @active
-    return if @dy == 0
-    @dx = 1
-    @dy = 0
-
-  def goLeft
-    return startGame unless @active
-    return if @dy == 0
-    @dx = -1
-    @dy = 0
-
   def mount
-    document.getElementById("game").focus()
+    document.add-event-listener("keydown") do |event|
+      handle_key(event)
+      Imba.commit
     setInterval(&,100) do
       if @active
         moveSnake
       Imba.commit
 
+  def handle_key(event)
+    return startGame unless @active
+    if event:key == "ArrowLeft"
+      return if @dy == 0
+      @dx = -1
+      @dy = 0
+    else if event:key == "ArrowRight"
+      return if @dy == 0
+      @dx = 1
+      @dy = 0
+    else if event:key == "ArrowUp"
+      return if @dx == 0
+      @dx = 0
+      @dy = -1
+    else if event:key == "ArrowDown"
+      return if @dx == 0
+      @dx = 0
+      @dy = 1
+
   def render
     <self.snake-game>
       <h2>
         "Score: { @score }"
-      <svg:svg id="game" tabindex="0" :keydown.up.goUp :keydown.down.goDown :keydown.left.goLeft :keydown.right.goRight>
+      <svg:svg>
         <Snake[@snake] dx=@dx dy=@dy>
         for item in @fruit
           <Fruit[item]>
-      <div.help>
+      <.help>
         "Keys to change snake direction."
 
 tag App
