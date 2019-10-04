@@ -5,10 +5,10 @@ tag Fruit < svg:g
 
 tag SnakeBody < svg:g
   prop index
-  prop length
+  prop len
 
   def render
-    let color = "hsl(120, 100%, {(0.2 + 0.6*index/length)*100}%)"
+    let color = "hsl(120, 100%, {(0.2 + 0.6*index/len)*100}%)"
     <self>
       <svg:rect x=(30*data:x) y=(30*data:y) width="28" height="28" css:fill=color>
 
@@ -45,7 +45,7 @@ tag Snake < svg:g
           <SnakeHead[item]>
           <SnakeDirection x=item:x y=item:y dx=dx dy=dy>
         else
-          <SnakeBody[item] index=index length=data:length>
+          <SnakeBody[item] index=index len=data:length>
 
 tag SnakeGame
   def build
