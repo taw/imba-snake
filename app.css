@@ -423,11 +423,11 @@ template {
   width: 630px;
   margin: auto; }
 
-.App ._SnakeDirection polygon {
+.App .SnakeDirection polygon {
   fill: red; }
 
-.App ._SnakeHead {
+.App .SnakeHead {
   fill: black; }
 
-.App ._Fruit {
+.App .Fruit {
   fill: red; }
